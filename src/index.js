@@ -1,8 +1,3 @@
-/**
- * Mastodon Comments - 基于 Mastodon API 的评论区组件
- * @version 1.0.0
- * @author Your Name
- */
 (function(window) {
   // 全局存储实例
   let mastodonCommentsInstance = null;
