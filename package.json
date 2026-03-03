@@ -4,8 +4,8 @@
   "description": "A Mastodon comment section component built with Tailwind CSS – backend-free deployment, with all data natively stored in Mastodon. 基于 Tailwind CSS 构建的 Mastodon 评论区组件，免后端部署，数据原生存储在 Mastodon 中。",
   "main": "dist/mastodon-comments.js",
   "scripts": {
-    "build": "rollup -c",
-    "build:watch": "rollup -c -w"
+    "build": "npx rollup -c",
+    "build:watch": "npx rollup -c -w"
   },
   "keywords": [
     "mastodon",
