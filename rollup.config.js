@@ -1,10 +1,10 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
-import banner from "rollup-plugin-banner"; // 新增：添加文件头部注释
+import banner from "rollup-plugin-banner";
 
-// 读取 package.json 中的版本和作者信息（可选）
-import pkg from "./package.json" assert { type: "json" };
+// 读取 package.json 中的版本和作者信息
+import pkg from "./package.json" with { type: "json" };
 
 // 自定义 banner 内容（保留源码的版权信息）
 const bannerText = `/**
