@@ -1,57 +1,37 @@
 /**
- * Mastodon Comments - 基于 Mastodon API 的评论区组件
+ * Mastodon Comments - A Mastodon comment section component built with Tailwind CSS – backend-free deployment, with all data natively stored in Mastodon. 基于 Tailwind CSS 构建的 Mastodon 评论区组件，免后端部署，数据原生存储在 Mastodon 中。
  * @version 1.0.0
- * @author Your Name
+ * @author feiju12138
  */
-(function(window) {
-  // 全局存储实例
-  let mastodonCommentsInstance = null;
+(function () {
+  'use strict';
 
-  // 核心类
-  class MastodonComments {
-    constructor(options) {
-      // 验证必填参数
-      if (!options.MASTODON_DOMAIN || !options.TOOT_ID || !options.MASTODON_USER) {
-        throw new Error("MASTODON_DOMAIN、MASTODON_USER 和 TOOT_ID 为必填参数");
+  (function(window) {
+    let mastodonCommentsInstance = null;
+    class MastodonComments {
+      constructor(options) {
+        if (!options.MASTODON_DOMAIN || !options.TOOT_ID || !options.MASTODON_USER) {
+          throw new Error("MASTODON_DOMAIN、MASTODON_USER 和 TOOT_ID 为必填参数");
+        }
+        this.config = {
+          containerId: "mastodon-comments",
+          ...options
+        };
+        this.elements = {};
+        this.init();
       }
-
-      // 配置参数
-      this.config = {
-        containerId: "mastodon-comments",
-        ...options
-      };
-
-      // DOM 元素缓存
-      this.elements = {};
-
-      // 初始化
-      this.init();
-    }
-
-    // 初始化 DOM 和事件
-    init() {
-      // 获取挂载容器
-      this.container = document.getElementById(this.config.containerId);
-      if (!this.container) {
-        throw new Error(`未找到挂载容器 #${this.config.containerId}`);
+      init() {
+        this.container = document.getElementById(this.config.containerId);
+        if (!this.container) {
+          throw new Error(`未找到挂载容器 #${this.config.containerId}`);
+        }
+        this.renderBaseUI();
+        this.cacheElements();
+        this.bindEvents();
+        this.fetchAndRenderComments();
       }
-
-      // 渲染基础 UI 结构
-      this.renderBaseUI();
-
-      // 缓存 DOM 元素
-      this.cacheElements();
-
-      // 绑定事件
-      this.bindEvents();
-
-      // 加载评论
-      this.fetchAndRenderComments();
-    }
-
-    // 渲染基础 UI 结构
-    renderBaseUI() {
-      this.container.innerHTML = `
+      renderBaseUI() {
+        this.container.innerHTML = `
         <div class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
           <div class="mb-8">
             <h2 class="text-2xl font-bold text-gray-900 inline-flex items-center gap-2">
@@ -92,115 +72,92 @@
           </div>
         </div>
       `;
-    }
-
-    // 缓存 DOM 元素
-    cacheElements() {
-      this.elements = {
-        loading: this.container.querySelector("#loading"),
-        emptyState: this.container.querySelector("#empty-state"),
-        commentList: this.container.querySelector("#comment-list"),
-        errorState: this.container.querySelector("#error-state"),
-        commentCount: this.container.querySelector("#comment-count"),
-        retryBtn: this.container.querySelector("#retry-btn"),
-        originalPostLink: this.container.querySelector("#original-post-link")
-      };
-    }
-
-    // 绑定事件
-    bindEvents() {
-      this.elements.retryBtn.addEventListener("click", () => {
-        this.elements.errorState.classList.add("hidden");
-        this.elements.loading.classList.remove("hidden");
-        this.fetchAndRenderComments();
-      });
-    }
-
-    // 格式化时间
-    formatDateTime(isoString) {
-      if (!isoString) return "未知时间";
-      const date = new Date(isoString);
-      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-    }
-
-    // 过滤评论数据
-    filterComments(comments) {
-      return comments.filter(comment => {
-        return comment.sensitive === false &&
-          ["public", "unlisted"].includes(comment.visibility);
-      });
-    }
-
-    // 一级评论倒序
-    sortRootCommentsDesc(comments) {
-      return comments.sort((a, b) => {
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      });
-    }
-
-    // 二级评论正序
-    sortReplyCommentsAsc(comments) {
-      return comments.sort((a, b) => {
-        return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-      });
-    }
-
-    // 构建评论层级
-    buildCommentHierarchy(comments) {
-      const mainTootId = this.config.TOOT_ID;
-      const commentMap = new Map();
-      comments.forEach(comment => {
-        commentMap.set(comment.id, { ...comment, replies: [] });
-      });
-
-      const rootComments = [];
-      comments.forEach(comment => {
-        const commentNode = commentMap.get(comment.id);
-        if (comment.in_reply_to_id === mainTootId) {
-          rootComments.push(commentNode);
-        }
-      });
-
-      const sortedRootComments = this.sortRootCommentsDesc(rootComments);
-
-      comments.forEach(comment => {
-        const commentNode = commentMap.get(comment.id);
-        if (comment.in_reply_to_id === mainTootId) return;
-
-        const parentComment = commentMap.get(comment.in_reply_to_id);
-        if (parentComment) {
-          if (rootComments.includes(parentComment)) {
-            parentComment.replies.push(commentNode);
-          } else {
-            let topParent = parentComment;
-            while (topParent && !rootComments.includes(topParent)) {
-              topParent = commentMap.get(topParent.in_reply_to_id);
-            }
-            if (topParent) {
-              topParent.replies.push(commentNode);
-            } else {
-              sortedRootComments.push(commentNode);
-            }
+      }
+      cacheElements() {
+        this.elements = {
+          loading: this.container.querySelector("#loading"),
+          emptyState: this.container.querySelector("#empty-state"),
+          commentList: this.container.querySelector("#comment-list"),
+          errorState: this.container.querySelector("#error-state"),
+          commentCount: this.container.querySelector("#comment-count"),
+          retryBtn: this.container.querySelector("#retry-btn"),
+          originalPostLink: this.container.querySelector("#original-post-link")
+        };
+      }
+      bindEvents() {
+        this.elements.retryBtn.addEventListener("click", () => {
+          this.elements.errorState.classList.add("hidden");
+          this.elements.loading.classList.remove("hidden");
+          this.fetchAndRenderComments();
+        });
+      }
+      formatDateTime(isoString) {
+        if (!isoString) return "未知时间";
+        const date = new Date(isoString);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+      }
+      filterComments(comments) {
+        return comments.filter(comment => {
+          return comment.sensitive === false &&
+            ["public", "unlisted"].includes(comment.visibility);
+        });
+      }
+      sortRootCommentsDesc(comments) {
+        return comments.sort((a, b) => {
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        });
+      }
+      sortReplyCommentsAsc(comments) {
+        return comments.sort((a, b) => {
+          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+        });
+      }
+      buildCommentHierarchy(comments) {
+        const mainTootId = this.config.TOOT_ID;
+        const commentMap = new Map();
+        comments.forEach(comment => {
+          commentMap.set(comment.id, { ...comment, replies: [] });
+        });
+        const rootComments = [];
+        comments.forEach(comment => {
+          const commentNode = commentMap.get(comment.id);
+          if (comment.in_reply_to_id === mainTootId) {
+            rootComments.push(commentNode);
           }
-        } else {
-          sortedRootComments.push(commentNode);
-        }
-      });
-
-      sortedRootComments.forEach(rootComment => {
-        rootComment.replies = this.sortReplyCommentsAsc(rootComment.replies);
-      });
-
-      return sortedRootComments;
-    }
-
-    // 渲染评论
-    renderComment(comment, isReply = false) {
-      const commentClasses = isReply
-        ? "bg-gray-100 rounded-lg p-4"
-        : "bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow";
-
-      return `
+        });
+        const sortedRootComments = this.sortRootCommentsDesc(rootComments);
+        comments.forEach(comment => {
+          const commentNode = commentMap.get(comment.id);
+          if (comment.in_reply_to_id === mainTootId) return;
+          const parentComment = commentMap.get(comment.in_reply_to_id);
+          if (parentComment) {
+            if (rootComments.includes(parentComment)) {
+              parentComment.replies.push(commentNode);
+            } else {
+              let topParent = parentComment;
+              while (topParent && !rootComments.includes(topParent)) {
+                topParent = commentMap.get(topParent.in_reply_to_id);
+              }
+              if (topParent) {
+                topParent.replies.push(commentNode);
+              } else {
+                sortedRootComments.push(commentNode);
+              }
+            }
+          } else {
+            sortedRootComments.push(commentNode);
+          }
+        });
+        sortedRootComments.forEach(rootComment => {
+          rootComment.replies = this.sortReplyCommentsAsc(rootComment.replies);
+        });
+        return sortedRootComments;
+      }
+      renderComment(comment, isReply = false) {
+        const commentClasses = isReply
+          ? "bg-gray-100 rounded-lg p-4"
+          : "bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow";
+        return `
         <div class="${commentClasses}" data-comment-id="${comment.id}">
             <div class="flex items-start mb-4">
                 <div class="flex-shrink-0 mr-4">
@@ -231,11 +188,9 @@
         : ""}
         </div>
       `;
-    }
-
-    // 渲染回复
-    renderReplyComment(comment) {
-      return `
+      }
+      renderReplyComment(comment) {
+        return `
         <div class="bg-gray-100 rounded-lg p-4" data-comment-id="${comment.id}">
             <div class="flex items-start mb-4">
                 <div class="flex-shrink-0 mr-4">
@@ -260,55 +215,43 @@
             </div>
         </div>
       `;
-    }
-
-    // 渲染评论列表
-    renderComments(comments) {
-      const validComments = this.filterComments(comments);
-      this.elements.commentCount.textContent = validComments.length;
-
-      this.elements.loading.classList.add("hidden");
-      this.elements.errorState.classList.add("hidden");
-
-      if (validComments.length === 0) {
-        this.elements.commentList.classList.add("hidden");
-        this.elements.emptyState.classList.remove("hidden");
-        return;
       }
-
-      this.elements.commentList.classList.remove("hidden");
-      const commentHierarchy = this.buildCommentHierarchy(validComments);
-      this.elements.commentList.innerHTML = commentHierarchy.map(comment => this.renderComment(comment)).join("");
-    }
-
-    // 获取并渲染评论
-    async fetchAndRenderComments() {
-      try {
-        const { MASTODON_DOMAIN, MASTODON_USER, TOOT_ID } = this.config;
-
-        this.elements.originalPostLink.href = `https://${MASTODON_DOMAIN}/@${MASTODON_USER}/${TOOT_ID}`;
-
-        const response = await fetch(`https://${MASTODON_DOMAIN}/api/v1/statuses/${encodeURIComponent(TOOT_ID)}/context`);
-        if (!response.ok) throw new Error(`请求失败: ${response.status}`);
-
-        const data = await response.json();
-        this.renderComments(data.descendants || []);
-
-      } catch (error) {
-        console.error("获取评论失败:", error);
+      renderComments(comments) {
+        const validComments = this.filterComments(comments);
+        this.elements.commentCount.textContent = validComments.length;
         this.elements.loading.classList.add("hidden");
-        this.elements.errorState.classList.remove("hidden");
+        this.elements.errorState.classList.add("hidden");
+        if (validComments.length === 0) {
+          this.elements.commentList.classList.add("hidden");
+          this.elements.emptyState.classList.remove("hidden");
+          return;
+        }
+        this.elements.commentList.classList.remove("hidden");
+        const commentHierarchy = this.buildCommentHierarchy(validComments);
+        this.elements.commentList.innerHTML = commentHierarchy.map(comment => this.renderComment(comment)).join("");
+      }
+      async fetchAndRenderComments() {
+        try {
+          const { MASTODON_DOMAIN, MASTODON_USER, TOOT_ID } = this.config;
+          this.elements.originalPostLink.href = `https://${MASTODON_DOMAIN}/@${MASTODON_USER}/${TOOT_ID}`;
+          const response = await fetch(`https://${MASTODON_DOMAIN}/api/v1/statuses/${encodeURIComponent(TOOT_ID)}/context`);
+          if (!response.ok) throw new Error(`请求失败: ${response.status}`);
+          const data = await response.json();
+          this.renderComments(data.descendants || []);
+        } catch (error) {
+          console.error("获取评论失败:", error);
+          this.elements.loading.classList.add("hidden");
+          this.elements.errorState.classList.remove("hidden");
+        }
       }
     }
-  }
+    window.initMastodonComments = function(options) {
+      if (mastodonCommentsInstance) {
+        console.warn("Mastodon Comments 已初始化，将重新创建实例");
+      }
+      mastodonCommentsInstance = new MastodonComments(options);
+      return mastodonCommentsInstance;
+    };
+  })(window);
 
-  // 暴露全局初始化函数
-  window.initMastodonComments = function(options) {
-    if (mastodonCommentsInstance) {
-      console.warn("Mastodon Comments 已初始化，将重新创建实例");
-    }
-    mastodonCommentsInstance = new MastodonComments(options);
-    return mastodonCommentsInstance;
-  };
-
-})(window);
+})();
