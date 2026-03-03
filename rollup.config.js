@@ -1,21 +1,21 @@
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import { terser } from 'rollup-plugin-terser';
-import banner from 'rollup-plugin-banner'; // 新增：添加文件头部注释
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import { terser } from "rollup-plugin-terser";
+import banner from "rollup-plugin-banner"; // 新增：添加文件头部注释
 
 // 读取 package.json 中的版本和作者信息（可选）
-import pkg from './package.json' assert { type: 'json' };
+import pkg from "./package.json" assert { type: "json" };
 
 // 自定义 banner 内容（保留源码的版权信息）
 const bannerText = `/**
  * Mastodon Comments - 基于 Mastodon API 的评论区组件
- * @version ${pkg.version || '1.0.0'}
- * @author ${pkg.author || 'Your Name'}
+ * @version ${pkg.version || "1.0.0"}
+ * @author ${pkg.author || "Your Name"}
  */`;
 
 // 基础配置（适配自执行函数的浏览器组件）
 const baseConfig = {
-  input: 'src/index.js', // 入口文件
+  input: "src/index.js", // 入口文件
   plugins: [
     nodeResolve({
       browser: true // 明确指定为浏览器环境
@@ -27,7 +27,7 @@ const baseConfig = {
   external: [],
   // 禁止 Rollup 警告未使用的导出（因为你的代码是自执行函数，无显式导出）
   onwarn: (warning) => {
-    if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return;
+    if (warning.code === "UNUSED_EXTERNAL_IMPORT") return;
     console.warn(warning.message);
   }
 };
@@ -38,8 +38,8 @@ export default [
   {
     ...baseConfig,
     output: {
-      file: 'dist/mastodon-comments.js',
-      format: 'iife', // 立即执行函数，最适配你的源码格式
+      file: "dist/mastodon-comments.js",
+      format: "iife", // 立即执行函数，最适配你的源码格式
       sourcemap: true, // 生成 sourcemap 方便调试
       // 禁用全局变量名（因为你的代码已通过自执行函数挂载到 window）
       name: undefined
@@ -49,8 +49,8 @@ export default [
   {
     ...baseConfig,
     output: {
-      file: 'dist/mastodon-comments.min.js',
-      format: 'iife',
+      file: "dist/mastodon-comments.min.js",
+      format: "iife",
       sourcemap: true,
       name: undefined
     },
@@ -61,11 +61,11 @@ export default [
         compress: {
           drop_console: false, // 保留 console.error 用于错误提示
           drop_debugger: true,
-          pure_funcs: ['console.log'] // 仅移除 console.log
+          pure_funcs: ["console.log"] // 仅移除 console.log
         },
         mangle: {
           // 避免混淆关键变量名
-          reserved: ['MastodonComments', 'initMastodonComments']
+          reserved: ["MastodonComments", "initMastodonComments"]
         },
         format: {
           comments: /@version|@author/ // 保留版权注释
