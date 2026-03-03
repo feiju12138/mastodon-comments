@@ -1,0 +1,26 @@
+{
+  "name": "mastodon-comments",
+  "version": "1.0.0",
+  "description": "A Mastodon comment section component built with Tailwind CSS – backend-free deployment, with all data natively stored in Mastodon. 基于 Tailwind CSS 构建的 Mastodon 评论区组件，免后端部署，数据原生存储在 Mastodon 中。",
+  "main": "dist/mastodon-comments.js",
+  "scripts": {
+    "build": "cp src/index.js dist/mastodon-comments.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mastodon",
+    "comments",
+    "comment-system",
+    "tailwindcss"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feiju12138/mastodon-comments.git"
+  },
+  "bugs": {
+    "url": "https://github.com/feiju12138/mastodon-comments/issues"
+  },
+  "homepage": "https://feiju12138.github.io/mastodon-comments/"
+}
