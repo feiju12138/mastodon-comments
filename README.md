@@ -28,7 +28,7 @@ A Mastodon comment section component built with Tailwind CSS – backend-free de
 
 <!-- 4. 初始化组件 -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener("DOMContentLoaded", function() {
     initMastodonComments({
       MASTODON_DOMAIN: "mastodon.social", // Mastodon 实例域名
       MASTODON_USER: "feiju", // Mastodon 实例中根评论发布的用户名
