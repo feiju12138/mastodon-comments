@@ -234,7 +234,7 @@
         try {
           const { MASTODON_DOMAIN, MASTODON_USER, TOOT_ID } = this.config;
           this.elements.originalPostLink.href = `https://${MASTODON_DOMAIN}/@${MASTODON_USER}/${TOOT_ID}`;
-          const response = await fetch(`https://${MASTODON_DOMAIN}/api/v1/statuses/${encodeURIComponent(TOOT_ID)}/context`);
+          const response = await fetch(`https://${MASTODON_DOMAIN}/api/v1/statuses/${TOOT_ID}/context`);
           if (!response.ok) throw new Error(`请求失败: ${response.status}`);
           const data = await response.json();
           this.renderComments(data.descendants || []);
