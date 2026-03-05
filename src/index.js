@@ -1,3 +1,7 @@
+// 引入 tailwind CSS
+import './index.css';
+
+// 核心 JS 代码
 (function(window) {
   // 全局存储实例
   let mastodonCommentsInstance = null;
@@ -203,7 +207,7 @@
                         <img class="h-12 w-12 rounded-full object-cover"
                              src="${comment.account.avatar}"
                              alt="${comment.account.acct}"
-                             onerror="this.src="https://picsum.photos/200/200?random=999"">
+                             onerror="this.src='https://picsum.photos/200/200?random=999'"
                     </a>
                 </div>
                 <div>
