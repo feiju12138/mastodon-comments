@@ -17,14 +17,13 @@ A Mastodon comment section component built with Tailwind CSS – backend-free de
 
 ```html
 <!-- 1. 引入外部依赖 -->
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 
 <!-- 2. 创建挂载点 -->
 <div id="mastodon-comments"></div>
 
 <!-- 3. 通过CDN引入组件 -->
-<script src="https://cdn.jsdelivr.net/gh/feiju12138/mastodon-comments@v1.0.1/dist/mastodon-comments.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/feiju12138/mastodon-comments@v2.0.0/dist/mastodon-comments.min.js"></script>
 
 <!-- 4. 初始化组件 -->
 <script>
@@ -53,15 +52,7 @@ cd mastodon-comments
 npm install
 ```
 
-### 修改源码并实时构建
-
-```shell
-npm run build:watch
-```
-
-- `dist`目录下会生成产物
-
-### 修改完成并最终构建
+### 修改源码并构建
 
 ```shell
 npm run build
