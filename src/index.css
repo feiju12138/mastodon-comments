@@ -1,0 +1,4 @@
+/* 引入 tailwind 基础/组件/工具类 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
