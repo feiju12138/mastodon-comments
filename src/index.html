@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Mastodon Comments</title>
-  <!-- 引入 Font Awesome（你的代码里用到了图标） -->
+  <!-- 1. 引入 Font Awesome -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <!-- 2. 引入 Mastodon Comments -->
 </head>
 <body>
-<!-- 评论挂载容器（对应你的 containerId） -->
+<!-- 3. 评论挂载容器 -->
 <div id="mastodon-comments"></div>
 
-<!-- 初始化评论组件（测试用，实际项目可按需调整） -->
+<!-- 4. 初始化评论组件 -->
 <script>
   window.onload = function() {
     initMastodonComments({
