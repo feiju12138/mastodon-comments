@@ -17,7 +17,7 @@ A Mastodon comment section component built with Tailwind CSS – backend-free de
 
 ```html
 <!-- 1. 通过CDN引入组件 -->
-<script src="https://cdn.jsdelivr.net/gh/feiju12138/mastodon-comments@latest/dist/mastodon-comments.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/feiju12138/mastodon-comments@3/dist/mastodon-comments.min.js"></script>
 
 <!-- 2. 创建挂载点 -->
 <div id="mastodon-comments"></div>
