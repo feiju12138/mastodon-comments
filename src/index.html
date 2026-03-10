@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Mastodon Comments</title>
-  <!-- 1. 引入 Font Awesome -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-  <!-- 2. 引入 Mastodon Comments -->
+  <!-- 1. 通过CDN引入组件 -->
+<!--  https://cdn.jsdelivr.net/gh/feiju12138/mastodon-comments@latest/dist/mastodon-comments.min.js-->
 </head>
 <body>
-<!-- 3. 评论挂载容器 -->
+<!-- 2. 创建挂载点 -->
 <div id="mastodon-comments"></div>
 
-<!-- 4. 初始化评论组件 -->
+<!-- 3. 初始化组件 -->
 <script>
   window.onload = function() {
     initMastodonComments({
