@@ -16,16 +16,13 @@ A Mastodon comment section component built with Tailwind CSS – backend-free de
 ## 🚀 快速使用
 
 ```html
-<!-- 1. 引入外部依赖 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<!-- 1. 通过CDN引入组件 -->
+<script src="https://cdn.jsdelivr.net/gh/feiju12138/mastodon-comments@latest/dist/mastodon-comments.min.js"></script>
 
 <!-- 2. 创建挂载点 -->
 <div id="mastodon-comments"></div>
 
-<!-- 3. 通过CDN引入组件 -->
-<script src="https://cdn.jsdelivr.net/gh/feiju12138/mastodon-comments@latest/dist/mastodon-comments.min.js"></script>
-
-<!-- 4. 初始化组件 -->
+<!-- 3. 初始化组件 -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     initMastodonComments({
