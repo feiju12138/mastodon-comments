@@ -1,5 +1,7 @@
 // 引入 tailwind CSS
 import './index.css';
+// 引入自定义图标
+import { icons, spinnerWithAnimation } from './icons.js';
 
 // 核心 JS 代码
 (function(window) {
@@ -58,31 +60,31 @@ import './index.css';
               <a id="original-post-link" target="_blank" rel="noopener noreferrer"
                  class="text-blue-500 hover:text-blue-400 transition-colors"
                  title="打开原帖">
-                <i class="fa-solid fa-external-link-alt text-lg"></i>
+                ${icons.externalLink}
               </a>
             </h2>
             <p class="mt-2 text-gray-600">共展示 <span id="comment-count" class="font-medium">0</span> 条评论</p>
           </div>
-
+    
           <div id="loading" class="bg-white rounded-lg p-8 text-center">
             <div class="mx-auto h-16 w-16 text-gray-400 mb-4">
-              <i class="fa-solid fa-spinner fa-spin text-4xl"></i>
+              ${spinnerWithAnimation}
             </div>
             <h3 class="text-lg font-medium text-gray-900">加载评论中...</h3>
           </div>
-
+    
           <div id="empty-state" class="bg-white rounded-lg p-8 text-center hidden">
             <div class="mx-auto h-16 w-16 text-gray-400 mb-4">
-              <i class="fa-solid fa-comment-dots text-4xl"></i>
+              ${icons.commentDots}
             </div>
             <h3 class="text-lg font-medium text-gray-900">暂无评论</h3>
           </div>
-
+    
           <div id="comment-list" class="space-y-6 hidden"></div>
-
+    
           <div id="error-state" class="bg-white rounded-lg p-8 text-center hidden">
             <div class="mx-auto h-16 w-16 text-red-400 mb-4">
-              <i class="fa-solid fa-triangle-exclamation text-4xl"></i>
+              ${icons.triangleExclamation}
             </div>
             <h3 class="text-lg font-medium text-gray-900">加载评论失败</h3>
             <button id="retry-btn" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-400">
