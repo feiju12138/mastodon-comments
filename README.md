@@ -7,17 +7,15 @@ A Mastodon comment section component built with Tailwind CSS – backend-free de
 
 - ✅ 免后端部署，纯前端实现
 - ✅ 基于 Mastodon API 获取评论数据
-- ✅ 支持两级评论展示
+- ✅ 支持多级评论展示
 - ✅ 响应式设计（适配移动端/桌面端）
-- ✅ 加载状态/空状态/错误状态提示
-- ✅ 支持评论重试加载
 - ❌ 暂不支持渲染评论中包含的图片
 
 ## 🚀 快速使用
 
 ```html
 <!-- 1. 通过CDN引入组件 -->
-<script src="https://cdn.jsdelivr.net/gh/feiju12138/mastodon-comments@3/dist/mastodon-comments.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/feiju12138/mastodon-comments@4/dist/mastodon-comments.min.js"></script>
 
 <!-- 2. 创建挂载点 -->
 <div id="mastodon-comments"></div>
