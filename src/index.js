@@ -53,6 +53,7 @@ import { icons, spinnerWithAnimation } from './icons.js';
     // 渲染基础 UI 结构
     renderBaseUI() {
       this.container.innerHTML = `
+      <div class="mastodon-comments-container">
         <div class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
           <div class="mb-8">
             <h2 class="text-2xl font-bold text-gray-900 inline-flex items-center gap-2">
@@ -92,6 +93,7 @@ import { icons, spinnerWithAnimation } from './icons.js';
             </button>
           </div>
         </div>
+      </div>
       `;
     }
 
