@@ -1,12 +1,13 @@
 module.exports = {
   content: [
     './src/**/*.html',
-    './src/**/*.js' // 扫描JS/HTML中的Tailwind类名
+    './src/**/*.js'
   ],
+  important: '.mastodon-comments-container',
   theme: {
     extend: {
       animation: {
-        'spin': 'spin 1s linear infinite', // 补充旋转动画（适配加载图标）
+        'spin': 'spin 1s linear infinite',
       },
       keyframes: {
         spin: {
