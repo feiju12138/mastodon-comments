@@ -1,10 +1,10 @@
 {
   "name": "mastodon-comments",
-  "version": "3.0.2",
+  "version": "4.0.0",
   "description": "A Mastodon comment section component built with Tailwind CSS – backend-free deployment, with all data natively stored in Mastodon. 基于 Tailwind CSS 构建的 Mastodon 评论区组件，免后端部署，数据原生存储在 Mastodon 中。",
   "main": "dist/mastodon-comments.js",
   "scripts": {
-    "build": "npx webpack --mode production"
+    "build": "rollup -c rollup.config.js"
   },
   "keywords": [
     "mastodon",
@@ -22,18 +22,8 @@
   },
   "homepage": "https://feiju12138.github.io/mastodon-comments/",
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.29.0",
-    "autoprefixer": "^10.4.27",
-    "babel-loader": "^10.0.0",
-    "css-loader": "^7.1.4",
-    "html-webpack-plugin": "^5.6.6",
-    "postcss": "^8.5.8",
-    "postcss-loader": "^8.2.1",
-    "style-loader": "^4.0.0",
-    "tailwindcss": "^3.4.19",
-    "webpack": "^5.105.4",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.3"
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.17.2"
   }
 }
