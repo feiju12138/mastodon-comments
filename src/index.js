@@ -19,10 +19,11 @@ class MastodonComments {
       console.error('MastodonComments: 未找到挂载节点 #mastodon-comments');
       return;
     }
+    
+    const { MASTODON_DOMAIN, MASTODON_USER, TOOT_ID } = this.config;
 
     // 根评论跳转URL
-    const { TOOT_ID } = this.config;
-    const commentOriginalUrl = `https://${domain}/@${comment.account.acct}/${TOOT_ID}`;
+    const commentOriginalUrl = `https://${MASTODON_DOMAIN}/@${MASTODON_USER}/${TOOT_ID}`;
 
     try {
       const commentsData = await this.fetchComments();
@@ -81,12 +82,11 @@ class MastodonComments {
 
   renderComments({ rootComments, childCommentsMap }) {
     const container = this.config.container;
-    const { MASTODON_DOMAIN } = this.config;
+    const { MASTODON_DOMAIN, MASTODON_USER, TOOT_ID } = this.config;
     container.innerHTML = '';
 
     // 根评论跳转URL
-    const { TOOT_ID } = this.config;
-    const commentOriginalUrl = `https://${domain}/@${comment.account.acct}/${TOOT_ID}`;
+    const commentOriginalUrl = `https://${MASTODON_DOMAIN}/@${MASTODON_USER}/${TOOT_ID}`;
 
     if (rootComments.length === 0) {
       container.innerHTML = `<a href="${commentOriginalUrl}" style="padding: 16px; color: #666;">暂无评论</a>`;
