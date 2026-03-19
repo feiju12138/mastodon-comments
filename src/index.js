@@ -84,8 +84,12 @@ class MastodonComments {
     const { MASTODON_DOMAIN } = this.config;
     container.innerHTML = '';
 
+    // 根评论跳转URL
+    const { TOOT_ID } = this.config;
+    const commentOriginalUrl = `https://${domain}/@${comment.account.acct}/${TOOT_ID}`;
+
     if (rootComments.length === 0) {
-      container.innerHTML = '<div style="padding: 16px; color: #666;">暂无评论</div>';
+      container.innerHTML = `<a href="${commentOriginalUrl}" style="padding: 16px; color: #666;">暂无评论</a>`;
       return;
     }
 
