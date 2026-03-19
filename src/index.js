@@ -20,13 +20,17 @@ class MastodonComments {
       return;
     }
 
+    // 根评论跳转URL
+    const { TOOT_ID } = this.config;
+    const commentOriginalUrl = `https://${domain}/@${comment.account.acct}/${TOOT_ID}`;
+
     try {
       const commentsData = await this.fetchComments();
       const processedData = this.processComments(commentsData);
       this.renderComments(processedData);
     } catch (error) {
       console.error('MastodonComments 初始化失败：', error);
-      this.config.container.innerHTML = '<div style="color: #f56c6c; padding: 16px;">评论加载失败，请稍后重试</div>';
+      this.config.container.innerHTML = `<a href="${commentOriginalUrl}" style="color: #f56c6c; padding: 16px;">评论加载失败，请稍后重试</a>`;
     }
   }
 
